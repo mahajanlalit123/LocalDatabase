@@ -8,19 +8,18 @@
 
 import UIKit
 
-class TodoListViewController: UITableViewController {
+class TodoListViewController:UITableViewController {
 
-    var itemArray = ["A", "B","C"]
-    //variable for local database
-    let defaults = UserDefaults.standard
+    var itemArray = [Item]()
     
+  
+    //folder path
+    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Item.plist")
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        if let items = defaults.array(forKey: "Item") as? [String]{
-            itemArray = items
-        }
+        loadItem()
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -31,7 +30,11 @@ class TodoListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell" , for: indexPath)
-        cell.textLabel?.text = itemArray[indexPath.row]
+        cell.textLabel?.text = itemArray[indexPath.row].title
+        
+        let item = itemArray[indexPath.row]
+        cell.accessoryType = item.done ? .checkmark : .none
+       
         return cell
     }
     
@@ -41,12 +44,14 @@ class TodoListViewController: UITableViewController {
         //print(itemArray[indexPath.row])
         
         // row Selection
-        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark{
-            tableView.cellForRow(at: indexPath)?.accessoryType = .none
+        //itemArray[indexPath.row].done = !itemArray[indexPath.row].done
+        if itemArray[indexPath.row].done == false{
+            itemArray[indexPath.row].done = true
         }else{
-            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+            itemArray[indexPath.row].done = false
         }
-        
+        tableView.reloadData()
+                
         //row selection animation
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -58,14 +63,15 @@ class TodoListViewController: UITableViewController {
         var textField = UITextField()
         let alert = UIAlertController(title: "Add New Item", message: "", preferredStyle: .alert)
         
+        
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             
-            self.itemArray.append(textField.text!)
-            //add value in local database
-            self.defaults.set(self.itemArray, forKey: "Item")
+            let newItem1 = Item()
+            newItem1.title = textField.text!
+            print(newItem1.title)
+            self.itemArray.append(newItem1)
             
-            self.tableView.reloadData()
-            print(textField.text!)
+            self.saveItem()
         }
         
         alert.addTextField { (alertTextField) in
@@ -75,5 +81,43 @@ class TodoListViewController: UITableViewController {
         alert.addAction(action)
         present(alert,animated: true,completion: nil)
     }
+    //Store encoded data inside item.plist file
+    func saveItem(){
+        let encoder = PropertyListEncoder()
+        do{
+            let data = try encoder.encode(itemArray)
+            try data.write(to: dataFilePath!)
+        }catch{
+            print("Error in encoding item array \(error)")
+        }
+        self.tableView.reloadData()
+    }
+    //Access encoded data From item.plist file
+    func loadItem(){
+    
+        if let data = try? Data(contentsOf: dataFilePath!){
+          let decoder = PropertyListDecoder()
+            do{
+               itemArray = try decoder.decode([Item].self, from: data)
+            }catch{
+                
+            }
+        }
+       
+    }
 }
 
+/*
+ 
+ /*************** UserDefaults ******************/
+ 
+    //create variable
+   let defaults = UserDefaults.standard
+ 
+ //add value
+ defaults.set(itemArray, forKey: "Item")
+ 
+ //getValue
+ itemArray = defaults.array(forKey: "Item") as! [String]
+ 
+ */

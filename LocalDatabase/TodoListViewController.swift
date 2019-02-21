@@ -11,9 +11,16 @@ import UIKit
 class TodoListViewController: UITableViewController {
 
     var itemArray = ["A", "B","C"]
+    //variable for local database
+    let defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        if let items = defaults.array(forKey: "Item") as? [String]{
+            itemArray = items
+        }
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -22,8 +29,8 @@ class TodoListViewController: UITableViewController {
     
     //Table Datasource Methods
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell" , for: indexPath)
         
+        let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell" , for: indexPath)
         cell.textLabel?.text = itemArray[indexPath.row]
         return cell
     }
@@ -52,7 +59,10 @@ class TodoListViewController: UITableViewController {
         let alert = UIAlertController(title: "Add New Item", message: "", preferredStyle: .alert)
         
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
+            
             self.itemArray.append(textField.text!)
+            //add value in local database
+            self.defaults.set(self.itemArray, forKey: "Item")
             
             self.tableView.reloadData()
             print(textField.text!)

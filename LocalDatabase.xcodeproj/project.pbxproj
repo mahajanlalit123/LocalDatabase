@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		470663EED4D8CE9BB1693173 /* Pods_LocalDatabase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456D5324DE03F2F9F87F0533 /* Pods_LocalDatabase.framework */; };
 		9C27746F221D8B7200707B41 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C27746E221D8B7200707B41 /* AppDelegate.swift */; };
 		9C277471221D8B7200707B41 /* TodoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C277470221D8B7200707B41 /* TodoListViewController.swift */; };
 		9C277474221D8B7200707B41 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C277472221D8B7200707B41 /* Main.storyboard */; };
@@ -17,6 +18,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		456D5324DE03F2F9F87F0533 /* Pods_LocalDatabase.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LocalDatabase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		962A57782BC632A56E6C2601 /* Pods-LocalDatabase.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LocalDatabase.debug.xcconfig"; path = "Target Support Files/Pods-LocalDatabase/Pods-LocalDatabase.debug.xcconfig"; sourceTree = "<group>"; };
+		96D7DFF7A6895198327BC5B1 /* Pods-LocalDatabase.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LocalDatabase.release.xcconfig"; path = "Target Support Files/Pods-LocalDatabase/Pods-LocalDatabase.release.xcconfig"; sourceTree = "<group>"; };
 		9C27746B221D8B7200707B41 /* LocalDatabase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LocalDatabase.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C27746E221D8B7200707B41 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9C277470221D8B7200707B41 /* TodoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListViewController.swift; sourceTree = "<group>"; };
@@ -33,17 +37,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				470663EED4D8CE9BB1693173 /* Pods_LocalDatabase.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		38BDEFD3CFE0535AE2E50FA5 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				962A57782BC632A56E6C2601 /* Pods-LocalDatabase.debug.xcconfig */,
+				96D7DFF7A6895198327BC5B1 /* Pods-LocalDatabase.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		9C277462221D8B7200707B41 = {
 			isa = PBXGroup;
 			children = (
 				9C27746D221D8B7200707B41 /* LocalDatabase */,
 				9C27746C221D8B7200707B41 /* Products */,
+				38BDEFD3CFE0535AE2E50FA5 /* Pods */,
+				B537ABF8FAE9446269650899 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -78,6 +95,14 @@
 			path = "Data Model";
 			sourceTree = "<group>";
 		};
+		B537ABF8FAE9446269650899 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				456D5324DE03F2F9F87F0533 /* Pods_LocalDatabase.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -85,9 +110,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9C27747D221D8B7400707B41 /* Build configuration list for PBXNativeTarget "LocalDatabase" */;
 			buildPhases = (
+				F72F0D833804DE958B147EBF /* [CP] Check Pods Manifest.lock */,
 				9C277467221D8B7200707B41 /* Sources */,
 				9C277468221D8B7200707B41 /* Frameworks */,
 				9C277469221D8B7200707B41 /* Resources */,
+				647735C676D7DB63ABD7A902 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -143,6 +170,55 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		647735C676D7DB63ABD7A902 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LocalDatabase/Pods-LocalDatabase-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LocalDatabase/Pods-LocalDatabase-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F72F0D833804DE958B147EBF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LocalDatabase-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		9C277467221D8B7200707B41 /* Sources */ = {
@@ -296,6 +372,7 @@
 		};
 		9C27747E221D8B7400707B41 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 962A57782BC632A56E6C2601 /* Pods-LocalDatabase.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -313,6 +390,7 @@
 		};
 		9C27747F221D8B7400707B41 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 96D7DFF7A6895198327BC5B1 /* Pods-LocalDatabase.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

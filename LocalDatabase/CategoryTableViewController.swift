@@ -8,11 +8,12 @@
 
 import UIKit
 import CoreData
+import RealmSwift
 
 class CategoryTableViewController: UITableViewController {
 
-    var categories = [Catgory]()
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let realm = try! Realm()
+    var categories : Results<Category>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,20 +24,20 @@ class CategoryTableViewController: UITableViewController {
     //MARK: - TableView Datasource Method
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categories.count
+        return categories?.count ?? 1
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destinationVC = segue.destination as! TodoListViewController
         
         if let indexPath = tableView.indexPathForSelectedRow{
-            destinationVC.selectedCategory = categories[indexPath.row]
+            destinationVC.selectedCategory = categories?[indexPath.row]
         }
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell" , for: indexPath)
-        cell.textLabel?.text = categories[indexPath.row].name
+        cell.textLabel?.text = categories?[indexPath.row].name ?? "No Category Added"
         
         return cell
     }
@@ -51,11 +52,10 @@ class CategoryTableViewController: UITableViewController {
         
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             
-            let newItem1 = Catgory(context: self.context)
+            let newItem1 = Category()
             newItem1.name = textField.text!
-            self.categories.append(newItem1)
-            
-            self.saveItem()
+        
+            self.saveItem(category: newItem1)
         }
         
         alert.addTextField { (alertTextField) in
@@ -67,27 +67,24 @@ class CategoryTableViewController: UITableViewController {
     }
     
    //Save Category Item
-    func saveItem(){
+    func saveItem(category : Category){
         
         do{
-            try self.context.save()
+            try realm.write {
+                realm.add(category)
+            }
         }catch{
             print("Error in saving Cotext \(error)")
         }
         self.tableView.reloadData()
     }
-    
-    
-    
+   
     //Access Category Item
-    func loadItem(with request : NSFetchRequest<Catgory> = Catgory.fetchRequest()){
+    func loadItem(){
         
-        do{
-            categories = try self.context.fetch(request)
-        }catch{
-            print("Error in loading Item \(error)")
-        }
+      categories = realm.objects(Category.self)
         tableView.reloadData()
     }
 
 }
+
